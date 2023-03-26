@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import "./styles.scss"
 import {ReactComponent as Cross} from "../../icons/cross.svg"
 import {ReactComponent as Pencil} from "../../icons/pencil.svg"

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./styles.scss"
 import Note from "../Note"
 import { ITagData } from '../TagBoard';
