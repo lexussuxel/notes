@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import "./styles.scss"
 import Note from "../Note"
 import Modal from '../Modal';
 import { IModalEnum } from '../Modal';
+import FilterContext from '../../filterContext';
 
 export interface INoteData {
   title: string;
@@ -12,26 +13,22 @@ export interface INoteData {
 }
 
 function NoteBoard() {
-  const [data, setData] = useState<INoteData[]>([]);
+  const [data, setData] = useState<INoteData[]>(JSON.parse(localStorage.getItem('notes')||"[]"));
   const [modalDisabled, setModalDisabled] = useState(true);
   const [modalStatus, setModalStatus] = useState<IModalEnum>(IModalEnum.CREATING);
   const [editNote, setEditNote] = useState<INoteData|null>(null)
+  const {filter} = useContext(FilterContext)
 
   const removeFunction = (a:string)=>{
     localStorage.setItem('notes', JSON.stringify(data.filter(d=> d.id !== a)))
     setData(data.filter(d=> d.id !== a))
   }
   
-  useEffect(()=>{
-      setData(JSON.parse(localStorage.getItem('notes')||"[]"))
-  },[])
-
   const addNote = () => {
     setModalStatus(IModalEnum.CREATING)
     setEditNote(null)
     setModalDisabled(false)
   }
-
   const editFunction = (id: string) =>{
     setModalStatus(IModalEnum.EDITING)
     setEditNote(JSON.parse(localStorage.getItem('notes')||"[]").find((n:INoteData)=>n.id===id))
@@ -46,7 +43,7 @@ function NoteBoard() {
     </div>
 
     <div className='wrapper-board'>
-      {data.map((note)=>
+      {data.filter(d => filter === "" || d.tags.includes(filter)).map((note)=>
         <Note title={note.title} text={note.text} rmFunction={removeFunction} editFunction={editFunction} id={note.id} tags={note.tags}/>
       )}
         

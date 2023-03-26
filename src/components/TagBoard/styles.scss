@@ -3,4 +3,18 @@
 .wrapper-tags{
     border-left: 3px solid $main-blue;
     padding: 0 10px;
+    .filter-tag{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        column-gap: 5px;
+        align-content: center;
+    }
+    svg{
+        stroke: $secondary-blue;
+        margin: auto 0;
+        &:hover{
+            stroke: $secondary-blue-hover;
+        }
+    }
 }

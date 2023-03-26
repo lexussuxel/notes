@@ -1,16 +1,17 @@
-import React, {FC} from "react";
+import React, {FC, useContext} from "react";
+import FilterContext from "../../filterContext";
 import {ReactComponent as Cross} from "../../icons/cross.svg"
 import "./styles.scss"
 
 interface ITag{
     text: string;
     rmFunction: (arg0: string)=>void;
-    onClick: (arg0: string) => void;
 }
 
-const Tag: FC<ITag> = ({text, rmFunction, onClick})=>{
+const Tag: FC<ITag> = ({text, rmFunction})=>{
+    const {setFilter} = useContext(FilterContext)
     return(
-        <div className="wrapper-tag" onClick={()=>{onClick(text)}}>
+        <div className="wrapper-tag" onClick={()=>{setFilter(text)}}>
             <p>{text}</p>
             <Cross onClick={(e)=>{e.preventDefault();rmFunction(text)}}/>
         </div>

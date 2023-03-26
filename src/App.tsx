@@ -6,10 +6,10 @@ import './main.scss';
 import TagsContext from './tagsContext';
 
 function App() {
-  // const [a, setA] = useState<Array<string>>
   const [tags, setTags] = useState<Array<string>>(JSON.parse(localStorage.getItem('tags')||"[]"))
+  const [filter, setFilter] = useState<string>("")
   return (
-    <FilterContext.Provider value={""}>
+    <FilterContext.Provider value={{filter:filter, setFilter:setFilter}}>
       <TagsContext.Provider value={{tags:tags, setTags:setTags}}>
       <div>
           <p className="Title">notes.</p>

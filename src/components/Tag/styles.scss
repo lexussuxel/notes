@@ -19,11 +19,12 @@
         stroke: $secondary-blue;
         margin: auto 0;
     }
-}
-.wrapper-tag:hover{
-    background-color: $main-blue-hover;
-    border-color: $main-blue-hover;
-    svg:hover{
-        stroke: $secondary-blue-hover;
+    &:hover{
+        background-color: $main-blue-hover;
+        border-color: $main-blue-hover;
+        svg:hover{
+            stroke: $secondary-blue-hover;
+        }
     }
 }
+

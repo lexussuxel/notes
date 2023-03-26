@@ -32,18 +32,21 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
     }
 
     const editTags=()=>{
-        const tagsTitle = inputTitle.match(/\u0023\S+[a-z]\b/g) as Array<string> || [];
-        const tagsText = inputText.match(/\u0023\S+[a-z]\b/g) as Array<string> || [];
-        const allTags =Array.from(new Set(tagsTitle.concat(tagsText)));
-        setTags(Array.from(new Set(tags.concat(allTags))));
-        localStorage.setItem('tags', JSON.stringify(Array.from(new Set(tags.concat(allTags)))))
-        status === IModalEnum.CREATING?addNewNote(allTags):editNote(allTags)
-
+        if(inputTitle === "")
+        alert('You can not create note without title')
+        else {
+            const tagsTitle = inputTitle.match(/\u0023\S+[a-z|0-9]\b/g) as Array<string> || [];
+            const tagsText = inputText.match(/\u0023\S+[a-z|0-9]\b/g) as Array<string> || [];
+            const allTags =Array.from(new Set(tagsTitle.concat(tagsText)));
+            setTags(Array.from(new Set(tags.concat(allTags))));
+            localStorage.setItem('tags', JSON.stringify(Array.from(new Set(tags.concat(allTags)))))
+            status === IModalEnum.CREATING?addNewNote(allTags):editNote(allTags)
+        }
     }
 
     const addNewNote = (arr: Array<any>)=>{
         const data = JSON.parse(localStorage.getItem('notes')||"[]") as Array<INoteData>
-        const newId = Math.max.apply(null,data.map(d=>Number.parseInt(d.id)))+1 || 1
+        const newId = data.length === 0? 1:Math.max.apply(null,data.map(d=>Number.parseInt(d.id)))+1
         localStorage.setItem('notes', JSON.stringify(
             [...data, {
                 id: `${newId}`,
