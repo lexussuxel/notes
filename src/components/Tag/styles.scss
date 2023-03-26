@@ -1,0 +1,29 @@
+@import "../../ui-kit";
+
+.wrapper-tag{
+    margin:5px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    background-color: $main-blue;
+    justify-content: space-between;
+    border: 5px solid $main-blue;
+    border-radius: 20px;
+    padding: 2px;
+    cursor: pointer;
+    p{
+        color: white;
+        font-size: 20px;
+    }
+    svg{
+        stroke: $secondary-blue;
+        margin: auto 0;
+    }
+}
+.wrapper-tag:hover{
+    background-color: $main-blue-hover;
+    border-color: $main-blue-hover;
+    svg:hover{
+        stroke: $secondary-blue-hover;
+    }
+}

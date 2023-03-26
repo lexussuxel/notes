@@ -1,0 +1,27 @@
+@import '../../ui-kit';
+
+
+
+.wrapper-notes{
+    width: 80%;
+    .wrapper-title{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        button{
+            padding: 2px;
+            border: 5px solid $main-blue;
+            border-radius: 25px;
+            background-color: $main-blue;
+            height: fit-content;
+            align-self: center;
+            margin-right: 20px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover{
+            border-color: $secondary-blue;
+            background-color: $secondary-blue;
+        }
+    }
+}
