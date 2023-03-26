@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import "./styles.scss"
 import Note from "../Note"
-import { ITagData } from '../TagBoard';
 import Modal from '../Modal';
 import { IModalEnum } from '../Modal';
 
 export interface INoteData {
   title: string;
   text?: string;
-  tags: Array<ITagData>;
+  tags: Array<string>;
   id: string;
 }
 
@@ -48,7 +47,7 @@ function NoteBoard() {
 
     <div className='wrapper-board'>
       {data.map((note)=>
-        <Note title={note.title} text={note.text} rmFunction={removeFunction} editFunction={editFunction} id={note.id}/>
+        <Note title={note.title} text={note.text} rmFunction={removeFunction} editFunction={editFunction} id={note.id} tags={note.tags}/>
       )}
         
     </div>

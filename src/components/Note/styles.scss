@@ -6,6 +6,7 @@
     box-shadow: 0px 4px 18px -3px rgba(0, 0, 0, 0.25);
     padding: 10px;
     width: 18vw;
+    height: min-content;
     .note-title{
         display: flex;
 
@@ -28,5 +29,17 @@
     }
     hr{
         border: 1px solid $note-secondary;
+    }
+    .wrapper-tags-note{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: 5px;
+        .tag-note{
+            background-color: $note-secondary;
+            border: 5px solid $note-secondary;
+            border-radius: 10px;
+            color:white;
+        }
     }
 }

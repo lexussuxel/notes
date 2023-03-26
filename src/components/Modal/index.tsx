@@ -1,6 +1,7 @@
-import React, {FC, useState} from "react"
+import React, {FC, useState, useContext} from "react"
 import { INoteData } from "../NoteBoard";
-
+import TagsContext from "../../tagsContext";
+import { ITagContext } from "../../tagsContext";
 import "./styles.scss";
 
 export enum IModalEnum{
@@ -21,20 +22,7 @@ interface IModal{
 const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>{
     const [inputTitle, setInputTitle] = useState(title || "");
     const [inputText, setInputText] = useState(text || "");
-
-    const addNewNote = ()=>{
-        const data = JSON.parse(localStorage.getItem('notes')||"[]") as Array<INoteData>
-        const newId = Math.max.apply(null,data.map(d=>Number.parseInt(d.id)))+1 || 1
-        localStorage.setItem('notes', JSON.stringify(
-            [...data, {
-                id: `${newId}`,
-                title: inputTitle,
-                text: inputText,
-                tags: []
-            }]
-        ))
-        closeWindow();
-    }
+    const {tags, setTags} = useContext<ITagContext>(TagsContext)
 
     const closeWindow = () => {
         setData(JSON.parse(localStorage.getItem('notes') || "[]"))
@@ -43,12 +31,37 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
         close();
     }
 
-    const editNote = ()=>{
+    const editTags=()=>{
+        const tagsTitle = inputTitle.match(/\u0023\S+[a-z]\b/g) as Array<string> || [];
+        const tagsText = inputText.match(/\u0023\S+[a-z]\b/g) as Array<string> || [];
+        const allTags =Array.from(new Set(tagsTitle.concat(tagsText)));
+        setTags(Array.from(new Set(tags.concat(allTags))));
+        localStorage.setItem('tags', JSON.stringify(Array.from(new Set(tags.concat(allTags)))))
+        status === IModalEnum.CREATING?addNewNote(allTags):editNote(allTags)
+
+    }
+
+    const addNewNote = (arr: Array<any>)=>{
         const data = JSON.parse(localStorage.getItem('notes')||"[]") as Array<INoteData>
-        const el = data.find(e=> e.id === id) || {title:"", text:"", id: "0", tags:[]}
+        const newId = Math.max.apply(null,data.map(d=>Number.parseInt(d.id)))+1 || 1
+        localStorage.setItem('notes', JSON.stringify(
+            [...data, {
+                id: `${newId}`,
+                title: inputTitle,
+                text: inputText,
+                tags: arr
+            }]
+        ))
+        closeWindow();
+    }
+
+    const editNote = (arr: Array<any>)=>{
+        const data = JSON.parse(localStorage.getItem('notes')||"[]") as Array<INoteData>
+        const el = data.find(e=> e.id === id) || {title:"", text:"", id: "0", tags:arr}
         el.title = inputTitle
         el.text = inputText
         el.id = id || "";
+        el.tags = arr;
         localStorage.setItem('notes', JSON.stringify(
             [...data]
         ))
@@ -63,7 +76,7 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
             <p>Enter text</p>
             <textarea onChange={e=>setInputText(e.target.value)} value={inputText}/>
             <hr/>
-            <div className="plus" onClick={()=>status === IModalEnum.CREATING?addNewNote():editNote()}>+</div>
+            <div className="plus" onClick={editTags}>+</div>
             </div>
         </div>
     )
