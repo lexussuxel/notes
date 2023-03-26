@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState, useContext} from "react";
+import React, { useContext} from "react";
 import FilterContext from "../../filterContext";
 import { IFilterContext } from "../../filterContext";
 import TagsContext from "../../tagsContext";

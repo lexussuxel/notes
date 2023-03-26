@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, { useState, useContext} from 'react';
 import "./styles.scss"
 import Note from "../Note"
 import Modal from '../Modal';
