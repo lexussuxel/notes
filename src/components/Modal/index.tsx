@@ -1,17 +1,17 @@
-import React, {FC, useState, useContext} from "react"
+import React, {FC, useState, useContext, useEffect} from "react"
 import { INoteData } from "../NoteBoard";
 import TagsContext from "../../tagsContext";
 import { ITagContext } from "../../tagsContext";
 import "./styles.scss";
 
 export enum IModalEnum{
-    EDITING, CREATING
+    EDITING, CREATING, NONE
 }
 
 
 interface IModal{
-    title?: string;
-    text?: string;
+    title: string;
+    text: string;
     status: IModalEnum;
     disabled: boolean;
     id?: string;
@@ -23,14 +23,17 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
     const [inputTitle, setInputTitle] = useState(title || "");
     const [inputText, setInputText] = useState(text || "");
     const {tags, setTags} = useContext<ITagContext>(TagsContext)
-
+    useEffect(()=>{
+        setInputText(text || "")
+        setInputTitle(title || "")
+    }, [disabled])
+    
     const closeWindow = () => {
         setData(JSON.parse(localStorage.getItem('notes') || "[]"))
         setInputText("")
         setInputTitle("")
         close();
     }
-
     const editTags=()=>{
         if(inputTitle === "")
         alert('You can not create note without title')
@@ -78,7 +81,23 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
             <hr/>
             <p>Enter text</p>
             <textarea onChange={e=>setInputText(e.target.value)} value={inputText}/>
+             <p>Preview: </p>
+             <div className="preview-text">
+                {inputTitle.replace(/\u0023\S+[a-z|0-9]\b/g, "///$&///")
+                .split("///")
+                .map((el:string)=>
+                 <p className={el[0]==="#"?"highlight":undefined}>{el}</p>
+                 )}
+            </div>
+             <div className="preview-text">
+                {inputText.replace(/\u0023\S+[a-z|0-9]\b/g, "///$&///")
+                .split("///")
+                .map((el:string)=>
+                 <p className={el[0]==="#"?"highlight":undefined}>{el}</p>
+                 )}
+            </div>
             <hr/>
+           
             <div className="plus" onClick={editTags}>+</div>
             </div>
         </div>

@@ -13,7 +13,7 @@ const Tag: FC<ITag> = ({text, rmFunction})=>{
     return(
         <div className="wrapper-tag" onClick={()=>{setFilter(text)}}>
             <p>{text}</p>
-            <Cross onClick={(e)=>{e.preventDefault();rmFunction(text)}}/>
+            <Cross onClick={(e)=>{e.stopPropagation();rmFunction(text)}}/>
         </div>
     )
 };

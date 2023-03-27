@@ -49,8 +49,8 @@ function NoteBoard() {
         
     </div>
     {editNote?
-        <Modal disabled={modalDisabled} status={modalStatus} close={()=>{setModalDisabled(true)}} id={editNote.id} text={editNote.text} title={editNote.title} setData={setData}/>:
-        <Modal disabled={modalDisabled} status={modalStatus} close={()=>{setModalDisabled(true)}} setData={setData}/>
+        <Modal disabled={modalDisabled} status={modalStatus} close={()=>{setModalDisabled(true)}} id={editNote.id} text={editNote.text || ""} title={editNote.title } setData={setData}/>:
+        <Modal disabled={modalDisabled} status={modalStatus} close={()=>{setModalDisabled(true)}} setData={setData} text={""} title={""}/>
     }
 
     </div>
