@@ -26,8 +26,8 @@ const Modal:FC<IModal> = ({title, text, status, disabled, id, close, setData})=>
     useEffect(()=>{
         setInputText(text || "")
         setInputTitle(title || "")
-    }, [disabled])
-    
+    }, [disabled, text, title])
+
     const closeWindow = () => {
         setData(JSON.parse(localStorage.getItem('notes') || "[]"))
         setInputText("")
